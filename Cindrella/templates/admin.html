@@ -1,0 +1,24 @@
+<h2>Admin Panel 🧑‍💼</h2>
+
+<form method="POST" action="/admin/add" enctype="multipart/form-data">
+
+<input name="name" placeholder="Name">
+<input name="price" placeholder="Price">
+
+<select name="category">
+<option>Men</option>
+<option>Women</option>
+</select>
+
+<input type="file" name="img">
+
+<button>Add</button>
+
+</form>
+
+<hr>
+
+{% for p in products %}
+<p>{{ p.name }} - ₹{{ p.price }}
+<a href="/admin/delete/{{ p.id }}">❌</a></p>
+{% endfor %}
