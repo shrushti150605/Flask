@@ -3,6 +3,9 @@ from flask_sqlalchemy import SQLAlchemy
 import os
 from werkzeug.utils import secure_filename
 
+
+os.makedirs("static/uploads", exist_ok=True)
+
 app = Flask(__name__)
 app.secret_key = "cindrella_secret"
 
@@ -99,22 +102,39 @@ def admin():
     return render_template("admin.html", products=Product.query.all())
 
 @app.route("/admin/add", methods=["POST"])
+@app.route("/admin/add", methods=["POST"])
 def add_product():
-    file = request.files["img"]
-    filename = secure_filename(file.filename)
-    path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-    file.save(path)
+    try:
+        name = request.form["name"]
+        price = request.form["price"]
+        category = request.form["category"]
 
-    p = Product(
-        name=request.form["name"],
-        price=int(request.form["price"]),
-        category=request.form["category"],
-        img="/static/uploads/" + filename
-    )
+        file = request.files.get("img")
 
-    db.session.add(p)
-    db.session.commit()
-    return redirect("/admin")
+        # if no image uploaded
+        if not file or file.filename == "":
+            img_path = "/static/uploads/default.jpg"
+        else:
+            filename = secure_filename(file.filename)
+            filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            file.save(filepath)
+            img_path = "/static/uploads/" + filename
+
+        p = Product(
+            name=name,
+            price=int(price),
+            category=category,
+            img=img_path
+        )
+
+        db.session.add(p)
+        db.session.commit()
+
+        return redirect("/admin")
+
+    except Exception as e:
+        print("ERROR:", e)
+        return "Error adding product"
 
 @app.route("/admin/delete/<int:id>")
 def delete(id):
@@ -132,5 +152,6 @@ def logout():
 with app.app_context():
     db.create_all()
 
+
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=5000)
