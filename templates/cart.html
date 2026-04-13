@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Cart</title>
+
+<style>
+body{
+    margin:0;
+    font-family:Arial;
+    background:#f4f6fb;
+}
+
+/* NAVBAR */
+.nav{
+    background:linear-gradient(90deg,#4f46e5,#9333ea);
+    padding:15px;
+    text-align:center;
+}
+
+.nav a{
+    color:white;
+    margin:10px;
+    text-decoration:none;
+    font-weight:bold;
+}
+
+/* CONTAINER */
+.container{
+    padding:20px;
+}
+
+/* CARD */
+.card{
+    background:white;
+    padding:15px;
+    margin:10px 0;
+    border-radius:12px;
+    box-shadow:0 6px 15px rgba(0,0,0,0.1);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+/* TITLE */
+h2{
+    margin:0;
+    padding:15px;
+    color:#333;
+}
+
+/* TOTAL BOX */
+.total{
+    font-size:20px;
+    font-weight:bold;
+    text-align:right;
+    margin-top:20px;
+    color:#111;
+}
+
+/* EMPTY */
+.empty{
+    text-align:center;
+    margin-top:50px;
+    color:gray;
+}
+</style>
+
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<div class="nav">
+    <a href="/home">Home</a>
+    <a href="/products">Products</a>
+    <a href="/cart">Cart</a>
+    <a href="/about">About</a>
+    <a href="/logout">Logout</a>
+</div>
+
+<!-- PAGE -->
+<div class="container">
+
+<h2>🛒 Cart</h2>
+
+{% if cart|length == 0 %}
+
+    <div class="empty">Your cart is empty 😔</div>
+
+{% else %}
+
+    {% for i in cart %}
+    <div class="card">
+        <div>{{ i.name }}</div>
+        <div style="color:green;font-weight:bold;">₹{{ i.price }}</div>
+    </div>
+    {% endfor %}
+
+    <div class="total">
+        Total: ₹{{ total }}
+    </div>
+
+{% endif %}
+
+</div>
+
+</body>
+</html>

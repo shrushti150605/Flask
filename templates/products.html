@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Products</title>
+
+<style>
+body{
+    margin:0;
+    font-family:Arial;
+    background:#f4f6fb;
+}
+
+/* NAVBAR */
+.nav{
+    background:linear-gradient(90deg,#4f46e5,#9333ea);
+    padding:15px;
+    text-align:center;
+}
+
+.nav a{
+    color:white;
+    margin:10px;
+    text-decoration:none;
+    font-weight:bold;
+}
+
+/* CONTAINER */
+.container{
+    padding:20px;
+}
+
+/* GRID */
+.grid{
+    display:flex;
+    flex-wrap:wrap;
+    gap:15px;
+    justify-content:center;
+}
+
+/* CARD */
+.card{
+    background:white;
+    width:220px;
+    padding:15px;
+    border-radius:12px;
+    box-shadow:0 6px 15px rgba(0,0,0,0.1);
+    text-align:center;
+    transition:0.3s;
+}
+
+.card:hover{
+    transform:scale(1.05);
+}
+
+/* IMAGE (optional if you add images later) */
+.card img{
+    width:100%;
+    height:160px;
+    object-fit:cover;
+    border-radius:10px;
+    margin-bottom:10px;
+}
+
+/* BUTTON */
+button{
+    background:green;
+    color:white;
+    border:none;
+    padding:10px;
+    width:100%;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:darkgreen;
+}
+
+/* TITLE */
+h2{
+    color:#333;
+    margin-left:20px;
+}
+</style>
+
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<div class="nav">
+    <a href="/home">Home</a>
+    <a href="/products">Products</a>
+    <a href="/cart">Cart</a>
+    <a href="/about">About</a>
+    <a href="/logout">Logout</a>
+</div>
+
+<!-- PAGE -->
+<div class="container">
+
+<h2>👞 Products</h2>
+
+<div class="grid">
+
+{% for p in products %}
+<div class="card">
+
+    <!-- If image exists -->
+    {% if p.img %}
+        <img src="{{ p.img }}">
+    {% endif %}
+
+    <h3>{{ p.name }}</h3>
+    <p style="color:green;font-weight:bold;">₹{{ p.price }}</p>
+
+    <a href="/add/{{ p.id }}">
+        <button>Add to Cart</button>
+    </a>
+
+</div>
+{% endfor %}
+
+</div>
+
+</div>
+
+</body>
+</html>
